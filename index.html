@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <title>Vaishnavi Pujala — ML Engineer & Data Engineer</title>
+  <style>
+    :root {
+      --bg: #0a0c0f;
+      --bg2: #0f1318;
+      --bg3: #141a22;
+      --border: #1e2733;
+      --border2: #243040;
+      --green: #00ff88;
+      --green2: #00cc6a;
+      --green-dim: rgba(0,255,136,0.08);
+      --green-dim2: rgba(0,255,136,0.15);
+      --blue: #4a9eff;
+      --blue-dim: rgba(74,158,255,0.1);
+      --text: #c8d8e8;
+      --text2: #7a90a8;
+      --text3: #4a5a6a;
+      --white: #eef4ff;
+      --mono: 'JetBrains Mono', monospace;
+      --sans: 'Syne', sans-serif;
+      --red: #ff4a6e;
+      --yellow: #ffd166;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--mono);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+    a { text-decoration: none; color: inherit; }
+    ul { list-style: none; }
+    img { max-width: 100%; display: block; }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent 0px,
+        transparent 2px,
+        rgba(0,0,0,0.03) 2px,
+        rgba(0,0,0,0.03) 4px
+      );
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-image:
+        linear-gradient(rgba(0,255,136,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,255,136,0.02) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ===== HEADER ===== */
+    .header {
+      position: fixed;
+      top: 0; left: 0; width: 100%;
+      z-index: 100;
+      background: rgba(10,12,15,0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 60px;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+    .nav__logo { font-family: var(--mono); font-size: 0.9rem; color: var(--green); letter-spacing: 0.05em; }
+    .nav__logo span { color: var(--text2); }
+    .nav__list { display: flex; gap: 0; align-items: center; }
+    .nav__link {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text2);
+      padding: 0.4rem 0.75rem;
+      border: 1px solid transparent;
+      transition: all 0.2s;
+    }
+    .nav__link:hover, .nav__link.active-link { color: var(--green); border-color: var(--border2); background: var(--green-dim); }
+    .nav__toggle { display: none; font-size: 1.2rem; cursor: pointer; color: var(--text2); }
+
+    /* ===== COMMON ===== */
+    .section { padding: 6rem 2rem; max-width: 1280px; margin: 0 auto; position: relative; z-index: 1; }
+    .sec-label {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 0.5rem;
+    }
+    .sec-label::before { content: '//'; color: var(--text3); }
+    .sec-title {
+      font-family: var(--sans);
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 800;
+      color: var(--white);
+      margin-bottom: 3rem;
+      letter-spacing: -0.02em;
+    }
+    .sec-title span { color: var(--green); }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.7rem 1.5rem;
+      border: 1px solid var(--green);
+      color: var(--green);
+      background: var(--green-dim);
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+    .btn:hover { background: var(--green); color: var(--bg); }
+    .btn--ghost { background: transparent; border-color: var(--border2); color: var(--text2); }
+    .btn--ghost:hover { border-color: var(--green); color: var(--green); background: var(--green-dim); }
+
+    /* ===== HERO ===== */
+    #home {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 4rem;
+      align-items: center;
+      padding: 0 2rem;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding-top: 60px;
+      position: relative;
+      z-index: 1;
+    }
+    .hero__photo-wrap {
+      position: relative;
+      width: 100%;
+    }
+    .hero__photo-wrap::before {
+      content: '';
+      position: absolute;
+      inset: -6px;
+      border: 1px solid var(--green);
+      opacity: 0.25;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .hero__photo-wrap::after {
+      content: '';
+      position: absolute;
+      top: 10px; left: 10px;
+      right: -10px; bottom: -10px;
+      border: 1px solid var(--border2);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .hero__photo { width: 100%; display: block; object-fit: cover; object-position: center top; filter: grayscale(15%) contrast(1.05); position: relative; z-index: 1; }
+    .hero__photo-badge {
+      position: absolute;
+      bottom: -12px;
+      right: -12px;
+      background: var(--green);
+      color: var(--bg);
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      padding: 0.4rem 0.8rem;
+      text-transform: uppercase;
+      z-index: 2;
+    }
+    .home__terminal { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(0,255,136,0.05); }
+    .terminal__bar { background: var(--bg3); border-bottom: 1px solid var(--border); padding: 0.6rem 1rem; display: flex; align-items: center; gap: 0.5rem; }
+    .terminal__dot { width: 10px; height: 10px; border-radius: 50%; }
+    .terminal__dot:nth-child(1) { background: var(--red); }
+    .terminal__dot:nth-child(2) { background: var(--yellow); }
+    .terminal__dot:nth-child(3) { background: var(--green); }
+    .terminal__title { margin-left: auto; font-size: 0.68rem; color: var(--text3); }
+    .terminal__body { padding: 1.5rem 1.75rem; font-size: 0.82rem; line-height: 1.9; }
+    .t-line { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .t-prompt { color: var(--green); user-select: none; }
+    .t-cmd { color: var(--blue); }
+    .t-key { color: var(--text2); }
+    .t-val { color: var(--white); }
+    .t-str { color: var(--yellow); }
+    .t-comment { color: var(--text3); font-style: italic; }
+    .t-arr { color: var(--text2); }
+    .t-cursor { display: inline-block; width: 8px; height: 1.1em; background: var(--green); animation: blink 1s step-end infinite; vertical-align: text-bottom; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    .home__eyebrow { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--green); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+    .home__eyebrow::before { content: '>_'; color: var(--text3); }
+    .home__name { font-family: var(--sans); font-size: clamp(2.8rem, 5vw, 4.5rem); font-weight: 800; color: var(--white); line-height: 1.05; letter-spacing: -0.03em; margin-bottom: 0.5rem; }
+    .home__name .accent { color: var(--green); }
+    .home__role { font-size: 1rem; color: var(--text2); margin-bottom: 1.5rem; }
+    .home__role span { color: var(--blue); }
+    .home__desc { font-size: 0.85rem; color: var(--text2); max-width: 440px; margin-bottom: 2rem; line-height: 1.8; font-family: var(--mono); }
+    .home__tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2rem; }
+    .tag { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.06em; padding: 0.3rem 0.7rem; border: 1px solid var(--border2); color: var(--text2); background: var(--bg2); text-transform: uppercase; }
+    .tag--green { border-color: var(--green2); color: var(--green); background: var(--green-dim); }
+    .tag--blue { border-color: rgba(74,158,255,0.3); color: var(--blue); background: var(--blue-dim); }
+    .home__btns { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+
+    /* ===== ABOUT ===== */
+    #about { padding: 5rem 0; background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    #about .section { display: grid; grid-template-columns: 420px 1fr; gap: 4rem; align-items: start; }
+    .about__bio { font-size: 0.88rem; color: var(--text); line-height: 1.9; margin-bottom: 1.5rem; }
+    .about__stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); margin-bottom: 2rem; }
+    .stat { background: var(--bg); padding: 1.25rem; text-align: center; }
+    .stat__num { font-family: var(--sans); font-size: 2rem; font-weight: 800; color: var(--green); display: block; line-height: 1; }
+    .stat__label { font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text3); margin-top: 0.3rem; }
+
+    /* ===== EDUCATION ===== */
+    #education { background: var(--bg); }
+    .edu-grid { display: grid; gap: 1px; background: var(--border); border: 1px solid var(--border); }
+    .edu-item { background: var(--bg2); padding: 1.75rem 2rem; display: grid; grid-template-columns: 1fr auto; gap: 1rem; align-items: start; transition: background 0.2s; }
+    .edu-item:hover { background: var(--bg3); }
+    .edu-item__index { font-size: 0.65rem; color: var(--text3); font-weight: 600; letter-spacing: 0.1em; grid-column: 1/-1; margin-bottom: -0.5rem; }
+    .edu-school { font-family: var(--sans); font-size: 1.05rem; font-weight: 700; color: var(--white); margin-bottom: 0.3rem; }
+    .edu-degree { font-size: 0.8rem; color: var(--green); font-weight: 600; letter-spacing: 0.02em; margin-bottom: 0.3rem; }
+    .edu-meta { font-size: 0.75rem; color: var(--text3); }
+    .edu-date { font-size: 0.72rem; font-weight: 600; color: var(--text2); background: var(--bg); border: 1px solid var(--border2); padding: 0.3rem 0.6rem; white-space: nowrap; letter-spacing: 0.05em; }
+
+    /* ===== SKILLS ===== */
+    #skills { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); }
+    .skill-block { background: var(--bg); padding: 1.5rem; transition: background 0.2s; }
+    .skill-block:hover { background: var(--bg3); }
+    .skill-block__header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; }
+    .skill-block__icon { width: 32px; height: 32px; background: var(--green-dim); border: 1px solid rgba(0,255,136,0.2); display: flex; align-items: center; justify-content: center; font-size: 0.8rem; color: var(--green); flex-shrink: 0; }
+    .skill-block__title { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--white); }
+    .skill-block__tags { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+    .skill-tag { font-size: 0.68rem; font-family: var(--mono); padding: 0.2rem 0.5rem; border: 1px solid var(--border2); color: var(--text2); background: var(--bg2); transition: all 0.15s; }
+    .skill-tag:hover { border-color: var(--green2); color: var(--green); }
+
+    /* ===== EXPERIENCE ===== */
+    #experience { background: var(--bg); }
+    .exp-timeline { display: flex; flex-direction: column; gap: 1px; background: var(--border); border: 1px solid var(--border); }
+    .exp-item { background: var(--bg2); padding: 2rem; transition: background 0.2s; }
+    .exp-item:hover { background: var(--bg3); }
+    .exp-head { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 0.4rem; }
+    .exp-role { font-family: var(--sans); font-size: 1rem; font-weight: 700; color: var(--white); }
+    .exp-badge { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.08em; padding: 0.25rem 0.6rem; border: 1px solid var(--green2); color: var(--green); background: var(--green-dim); white-space: nowrap; text-transform: uppercase; }
+    .exp-org { font-size: 0.78rem; color: var(--blue); margin-bottom: 1rem; font-weight: 500; }
+    .exp-list { display: flex; flex-direction: column; gap: 0.4rem; }
+    .exp-list li { font-size: 0.82rem; color: var(--text2); padding-left: 1.2rem; position: relative; line-height: 1.7; }
+    .exp-list li::before { content: '→'; position: absolute; left: 0; color: var(--green); font-size: 0.75rem; }
+
+    /* ===== PROJECTS ===== */
+    #projects { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .projects-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); }
+    .project-card { background: var(--bg); padding: 1.75rem; display: flex; flex-direction: column; transition: background 0.2s; position: relative; }
+    .project-card:hover { background: var(--bg3); }
+    .project-card::before { content: attr(data-index); position: absolute; top: 1rem; right: 1.25rem; font-size: 0.65rem; color: var(--text3); font-weight: 600; letter-spacing: 0.1em; }
+    .project-img-wrap { height: 140px; overflow: hidden; background: var(--bg2); border: 1px solid var(--border); margin-bottom: 1.25rem; position: relative; }
+    .project-img-wrap img { width: 100%; height: 100%; object-fit: cover; opacity: 0.85; }
+    .project-stack { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--green); margin-bottom: 0.5rem; }
+    .project-title { font-family: var(--sans); font-size: 1rem; font-weight: 700; color: var(--white); margin-bottom: 0.65rem; line-height: 1.3; }
+    .project-desc { font-size: 0.8rem; color: var(--text2); line-height: 1.75; flex: 1; margin-bottom: 1.25rem; }
+    .project-links { display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center; }
+    .project-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text2);
+      border-bottom: 1px solid var(--border2);
+      padding-bottom: 2px;
+      transition: all 0.2s;
+    }
+    .project-link:hover { color: var(--green); border-color: var(--green); }
+    .project-link--live { color: var(--blue); border-color: rgba(74,158,255,0.3); }
+    .project-link--live:hover { color: var(--green); border-color: var(--green); }
+
+    /* ===== PUBLICATIONS ===== */
+    #publications { background: var(--bg); }
+    .pub-list { display: flex; flex-direction: column; gap: 1px; background: var(--border); border: 1px solid var(--border); }
+    .pub-card { background: var(--bg2); padding: 2rem; transition: background 0.2s; }
+    .pub-card:hover { background: var(--bg3); }
+    .pub-venue { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--blue); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem; }
+    .pub-venue::before { content: '📄'; font-size: 0.75rem; }
+    .pub-title { font-family: var(--sans); font-size: 1rem; font-weight: 700; color: var(--white); margin-bottom: 0.3rem; line-height: 1.35; }
+    .pub-meta { font-size: 0.75rem; color: var(--text3); margin-bottom: 0.75rem; }
+    .pub-abstract { font-size: 0.8rem; color: var(--text2); line-height: 1.75; margin-bottom: 1rem; }
+    .pub-link-btn { display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--blue); transition: color 0.2s; }
+    .pub-link-btn:hover { color: var(--green); }
+
+    /* ===== CONTACT ===== */
+    #contact { background: var(--bg); }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 5rem; align-items: start; }
+    .contact-left__title { font-family: var(--sans); font-size: 1.5rem; font-weight: 800; color: var(--white); margin-bottom: 0.75rem; }
+    .contact-left__desc { font-size: 0.82rem; color: var(--text2); margin-bottom: 2rem; line-height: 1.8; }
+    .contact-info-item { display: flex; align-items: center; gap: 0.75rem; font-size: 0.8rem; color: var(--text2); margin-bottom: 0.6rem; }
+    .contact-info-item i { color: var(--green); width: 14px; text-align: center; font-size: 0.85rem; }
+    .contact-socials { display: flex; gap: 0.75rem; margin-top: 1.5rem; flex-wrap: wrap; }
+    .social-btn { display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--mono); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.05em; padding: 0.55rem 1.1rem; border: 1px solid var(--border2); color: var(--text2); background: var(--bg2); transition: all 0.2s; text-decoration: none; }
+    .social-btn--linkedin:hover { border-color: #0a66c2; color: #0a66c2; background: rgba(10,102,194,0.1); }
+    .social-btn--github:hover { border-color: var(--green); color: var(--green); background: var(--green-dim); }
+    .contact-form { display: flex; flex-direction: column; gap: 0.75rem; }
+    .contact-form input, .contact-form textarea { font-family: var(--mono); font-size: 0.82rem; padding: 0.75rem 1rem; background: var(--bg2); border: 1px solid var(--border); color: var(--text); outline: none; transition: border-color 0.2s; }
+    .contact-form input:focus, .contact-form textarea:focus { border-color: var(--green); }
+    .contact-form input::placeholder, .contact-form textarea::placeholder { color: var(--text3); }
+    .contact-form textarea { resize: vertical; min-height: 120px; }
+    .contact-form button { font-family: var(--mono); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.85rem 2rem; background: var(--green); color: var(--bg); border: none; cursor: pointer; transition: all 0.2s; align-self: flex-start; }
+    .contact-form button:hover { background: var(--green2); }
+
+    /* ===== FOOTER ===== */
+    .footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 1.5rem 2rem; text-align: center; font-size: 0.72rem; color: var(--text3); position: relative; z-index: 1; letter-spacing: 0.05em; }
+    .footer span { color: var(--green); }
+
+    /* ===== MOBILE ===== */
+    @media (max-width: 960px) {
+      #home { grid-template-columns: 1fr; padding-top: 80px; gap: 2rem; }
+      .home__right { order: 1; }
+      .hero__photo-wrap { order: 2; max-width: 320px; margin: 0 auto; }
+      #about .section { grid-template-columns: 1fr; gap: 2rem; }
+      .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .skills-grid { grid-template-columns: repeat(2, 1fr); }
+      .projects-grid { grid-template-columns: 1fr; }
+      .nav__menu { position: fixed; top: 60px; right: -100%; width: 240px; height: calc(100vh - 60px); background: var(--bg2); border-left: 1px solid var(--border); padding: 2rem; transition: right 0.3s; z-index: 99; }
+      .nav__menu.show { right: 0; }
+      .nav__list { flex-direction: column; gap: 0; }
+      .nav__link { display: block; padding: 0.75rem 0; border: none; border-bottom: 1px solid var(--border); }
+      .nav__toggle { display: block; }
+    }
+    @media (max-width: 600px) { .skills-grid { grid-template-columns: 1fr; } }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+    .fu { animation: fadeUp 0.6s ease both; }
+    .fu-1 { animation-delay: 0.05s; }
+    .fu-2 { animation-delay: 0.15s; }
+    .fu-3 { animation-delay: 0.25s; }
+    .fu-4 { animation-delay: 0.4s; }
+    .fu-5 { animation-delay: 0.55s; }
+    @keyframes glitch { 0%,100% { transform: translate(0); } 20% { transform: translate(-2px, 1px); } 40% { transform: translate(2px, -1px); } 60% { transform: translate(-1px, 2px); } 80% { transform: translate(1px, -2px); } }
+    .home__name:hover { animation: glitch 0.3s ease; }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <nav class="nav">
+      <div class="nav__logo"><span>~/</span>vpujala<span>.dev</span></div>
+      <div class="nav__menu" id="nav-menu">
+        <ul class="nav__list">
+          <li><a href="#home" class="nav__link active-link">home</a></li>
+          <li><a href="#about" class="nav__link">about</a></li>
+          <li><a href="#experience" class="nav__link">exp</a></li>
+          <li><a href="#skills" class="nav__link">skills</a></li>
+          <li><a href="#projects" class="nav__link">projects</a></li>
+          <li><a href="#publications" class="nav__link">papers</a></li>
+          <li><a href="#education" class="nav__link">edu</a></li>
+          <li><a href="#contact" class="nav__link">contact</a></li>
+        </ul>
+      </div>
+      <div class="nav__toggle" id="nav-toggle"><i class="fas fa-bars"></i></div>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- HERO -->
+    <section id="home">
+      <div class="home__right">
+        <p class="home__eyebrow fu fu-1">CS Graduate · Researcher · Builder</p>
+        <h1 class="home__name fu fu-2">Vaishnavi<br><span class="accent">Pujala</span></h1>
+        <p class="home__role fu fu-3">ML Researcher &amp; <span>Data Engineer</span></p>
+        <p class="home__desc fu fu-4">Building privacy-preserving machine learning systems, end-to-end data pipelines, and full-stack applications. Specializing in federated learning, MLOps, RAG systems, and scalable data engineering.</p>
+        <div class="home__tags fu fu-4">
+          <span class="tag tag--green">Federated Learning</span>
+          <span class="tag tag--blue">Data Engineering</span>
+          <span class="tag tag--green">MLOps</span>
+          <span class="tag tag--blue">RAG Systems</span>
+          <span class="tag">Python</span>
+          <span class="tag">dbt</span>
+          <span class="tag">Airflow</span>
+        </div>
+        <div class="home__btns fu fu-5">
+          <a href="#contact" class="btn"><i class="fas fa-terminal"></i> Get In Touch</a>
+          <a href="#projects" class="btn btn--ghost"><i class="fas fa-code"></i> View Projects</a>
+        </div>
+      </div>
+      <div class="hero__photo-wrap fu fu-2">
+        <img class="hero__photo" src="assets/img/vaishnavi.jpg" alt="Vaishnavi Pujala">
+        <div class="hero__photo-badge">ML · Data Engineer</div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" style="padding: 5rem 0;">
+      <div class="section">
+        <div class="about__terminal-wrap">
+          <div class="home__terminal">
+            <div class="terminal__bar">
+              <span class="terminal__dot"></span>
+              <span class="terminal__dot"></span>
+              <span class="terminal__dot"></span>
+              <span class="terminal__title">python3 vaishnavi.py</span>
+            </div>
+            <div class="terminal__body" style="font-size:0.80rem; line-height:2.05;">
+              <div class="t-line">
+                <span style="color:#4a9eff;">class</span>&nbsp;<span style="color:#eef4ff;">VaishnaviPujala</span><span class="t-arr">:</span>
+              </div>
+              <div class="t-line" style="padding-left:1.4em;">
+                <span style="color:#4a9eff;">def</span>&nbsp;<span style="color:#eef4ff;">__init__</span><span class="t-arr">(self):</span>
+              </div>
+              <div class="t-line" style="padding-left:2.8em;">
+                <span class="t-key">self</span><span class="t-arr">.</span><span style="color:#eef4ff;">role</span>&nbsp;<span class="t-arr">=</span>&nbsp;<span class="t-str">&quot;ML Researcher &amp; Data Engineer&quot;</span>
+              </div>
+              <div class="t-line" style="padding-left:2.8em;">
+                <span class="t-key">self</span><span class="t-arr">.</span><span style="color:#eef4ff;">location</span>&nbsp;<span class="t-arr">=</span>&nbsp;<span class="t-str">&quot;Atlanta, GA&quot;</span>
+              </div>
+              <div class="t-line" style="padding-left:2.8em;">
+                <span class="t-key">self</span><span class="t-arr">.</span><span style="color:#eef4ff;">degree</span>&nbsp;<span class="t-arr">=</span>&nbsp;<span class="t-str">&quot;M.S. CS @ GSU&quot;</span>
+              </div>
+              <div class="t-line" style="padding-left:2.8em;">
+                <span class="t-key">self</span><span class="t-arr">.</span><span style="color:#eef4ff;">publications</span>&nbsp;<span class="t-arr">=</span>&nbsp;<span style="color:#ffd166;">2</span>&nbsp;<span class="t-comment"># Springer</span>
+              </div>
+              <div class="t-line" style="padding-left:2.8em;">
+                <span class="t-key">self</span><span class="t-arr">.</span><span style="color:#eef4ff;">projects</span>&nbsp;<span class="t-arr">=</span>&nbsp;<span style="color:#ffd166;">7</span>&nbsp;<span class="t-comment"># and counting</span>
+              </div>
+              <div class="t-line" style="padding-left:2.8em;">
+                <span class="t-key">self</span><span class="t-arr">.</span><span style="color:#eef4ff;">coffee_to_code_ratio</span>&nbsp;<span class="t-arr">=</span>&nbsp;<span style="color:#4a9eff;">float</span><span class="t-arr">(</span><span class="t-str">'inf'</span><span class="t-arr">)</span>
+              </div>
+              <div style="height:0.6rem;"></div>
+              <div class="t-line" style="padding-left:1.4em;">
+                <span style="color:#4a9eff;">def</span>&nbsp;<span style="color:#eef4ff;">stack</span><span class="t-arr">(self):</span>
+              </div>
+              <div class="t-line" style="padding-left:2.8em;">
+                <span style="color:#4a9eff;">return</span>&nbsp;<span class="t-arr">[</span><span class="t-str">&quot;Python&quot;</span><span class="t-arr">,</span>&nbsp;<span class="t-str">&quot;dbt&quot;</span><span class="t-arr">,</span>&nbsp;<span class="t-str">&quot;Airflow&quot;</span><span class="t-arr">,</span>
+              </div>
+              <div class="t-line" style="padding-left:4.2em;">
+                <span class="t-str">&quot;LangChain&quot;</span><span class="t-arr">,</span>&nbsp;<span class="t-str">&quot;MLflow&quot;</span><span class="t-arr">,</span>&nbsp;<span class="t-str">&quot;React&quot;</span><span class="t-arr">]</span>
+              </div>
+              <div style="height:0.6rem;"></div>
+              <div class="t-line" style="padding-left:1.4em;">
+                <span style="color:#4a9eff;">def</span>&nbsp;<span style="color:#eef4ff;">philosophy</span><span class="t-arr">(self):</span>
+              </div>
+              <div class="t-line" style="padding-left:2.8em;">
+                <span style="color:#4a9eff;">return</span>&nbsp;<span class="t-str">&quot;Ship it, then make it smarter.&quot;</span>
+              </div>
+              <div style="height:0.8rem;"></div>
+              <div class="t-line"><span class="t-prompt">▶</span>&nbsp;<span class="t-cursor"></span></div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <p class="sec-label">About Me</p>
+          <h2 class="sec-title">Researcher, Engineer &amp; <span>Builder</span></h2>
+          <p class="about__bio">CS graduate student at Georgia State University focused on machine learning, federated learning, data engineering, and full-stack development. My research lives at the intersection of privacy and performance — building distributed ML systems that learn across data silos without ever touching raw data.</p>
+          <p class="about__bio" style="margin-top:0.75rem;">I have shipped research into Springer conferences covering healthcare AI and image forensics, built end-to-end ETL pipelines processing 100K+ records, and developed RAG-powered applications using LangChain and FAISS. I love bridging rigorous research with software that actually runs in production.</p>
+          <div class="about__stats">
+            <div class="stat"><span class="stat__num">2</span><div class="stat__label">Publications</div></div>
+            <div class="stat"><span class="stat__num">7</span><div class="stat__label">Projects</div></div>
+            <div class="stat"><span class="stat__num">3.3</span><div class="stat__label">GPA / 4.0</div></div>
+          </div>
+          <a href="assets/img/VaishnaviPujala_resume.pdf" download class="btn"><i class="fas fa-file-code"></i> Download Resume</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section id="experience">
+      <div class="section">
+        <p class="sec-label">Work Experience</p>
+        <h2 class="sec-title">Professional <span>History</span></h2>
+        <div class="exp-timeline">
+
+          <div class="exp-item">
+            <div class="exp-head">
+              <h3 class="exp-role">Graduate Research Assistant</h3>
+              <span class="exp-badge">Aug 2025 – Present</span>
+            </div>
+            <p class="exp-org">Georgia State University · Atlanta, GA</p>
+            <ul class="exp-list">
+              <li>Pioneered a privacy-preserving federated learning pipeline, architecting Domain Adversarial Neural Networks (DANN) with a Gradient Reversal Layer (GRL) to strengthen cross-domain generalization across federated clients while ensuring sensitive data remains on local devices.</li>
+              <li>Benchmarked and evaluated FedAvg and FedProx optimization algorithms, conducting rigorous experiments to analyze convergence behavior, communication efficiency, and model performance across federated clients.</li>
+            </ul>
+          </div>
+
+          <div class="exp-item">
+            <div class="exp-head">
+              <h3 class="exp-role">Graduate Teaching and Lab Assistant</h3>
+              <span class="exp-badge">Aug 2024 – May 2025</span>
+            </div>
+            <p class="exp-org">Georgia State University · Atlanta, GA</p>
+            <ul class="exp-list">
+              <li>Led weekly lab sessions and in-class instruction for 100+ undergraduate students across CSC3320 System-Level Programming and Python-based data analytics, walking through hands-on exercises covering C, C++, memory management, pointers, data manipulation, and visualization to build applied programming fluency and boost academic outcomes.</li>
+              <li>Partnered with faculty to redesign lab materials and assessment workflows for both courses, tracking student performance trends to sharpen regression and classification exercises, improve feedback quality, and cut grading turnaround time.</li>
+            </ul>
+          </div>
+
+          <div class="exp-item">
+            <div class="exp-head">
+              <h3 class="exp-role">Computer Vision &amp; ML Engineer</h3>
+              <span class="exp-badge">Jul 2023 – Jul 2024</span>
+            </div>
+            <p class="exp-org">Atal Incubation Centre, AIC-GNITS Foundation · India</p>
+            <ul class="exp-list">
+              <li>Constructed and optimized a computer vision pipeline for copy-move image forgery detection using CNN and VGG-16, achieving 90% detection accuracy across evaluation datasets — featured in Springer ICCCE 2024.</li>
+              <li>Delivered a full-stack ML inference system integrating a Flask REST API backend with an interactive HTML/CSS/JavaScript frontend, enabling real-time image upload and forgery localization.</li>
+            </ul>
+          </div>
+
+          <div class="exp-item">
+            <div class="exp-head">
+              <h3 class="exp-role">AI/ML Research Associate</h3>
+              <span class="exp-badge">Aug 2022 – Jun 2023</span>
+            </div>
+            <p class="exp-org">Innovation and Incubation Cell – GNITS · India</p>
+            <ul class="exp-list">
+              <li>Developed a heart disease prediction system comparing Random Forest, Naïve Bayes, and Logistic Regression, applying feature selection, hyperparameter tuning, and cross-validation to achieve 91% accuracy — recognized in Springer ICDSMLA 2023.</li>
+              <li>Performed exploratory data analysis and produced interactive visualizations using Plotly, Seaborn, and Matplotlib to surface health risk patterns and support integration into AI-driven healthcare analytics workflows.</li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills" style="padding: 6rem 0;">
+      <div class="section">
+        <p class="sec-label">Technical Skills</p>
+        <h2 class="sec-title">Tech <span>Stack</span></h2>
+        <div class="skills-grid">
+          <div class="skill-block">
+            <div class="skill-block__header">
+              <div class="skill-block__icon"><i class="fas fa-code"></i></div>
+              <span class="skill-block__title">Languages</span>
+            </div>
+            <div class="skill-block__tags">
+              <span class="skill-tag">Python</span><span class="skill-tag">SQL</span><span class="skill-tag">Java</span><span class="skill-tag">JavaScript</span><span class="skill-tag">TypeScript</span><span class="skill-tag">R</span><span class="skill-tag">Go</span><span class="skill-tag">C++</span><span class="skill-tag">C</span>
+            </div>
+          </div>
+          <div class="skill-block">
+            <div class="skill-block__header">
+              <div class="skill-block__icon"><i class="fas fa-database"></i></div>
+              <span class="skill-block__title">Data Engineering</span>
+            </div>
+            <div class="skill-block__tags">
+              <span class="skill-tag">Apache Airflow</span><span class="skill-tag">Apache Spark</span><span class="skill-tag">Apache Kafka</span><span class="skill-tag">dbt</span><span class="skill-tag">ETL Pipelines</span><span class="skill-tag">Snowflake</span><span class="skill-tag">star schema</span>
+            </div>
+          </div>
+          <div class="skill-block">
+            <div class="skill-block__header">
+              <div class="skill-block__icon"><i class="fas fa-brain"></i></div>
+              <span class="skill-block__title">AI / ML</span>
+            </div>
+            <div class="skill-block__tags">
+              <span class="skill-tag">LangChain</span><span class="skill-tag">RAG</span><span class="skill-tag">MLflow</span><span class="skill-tag">FAISS</span><span class="skill-tag">HuggingFace</span><span class="skill-tag">TensorFlow</span><span class="skill-tag">PyTorch</span><span class="skill-tag">Scikit-learn</span><span class="skill-tag">Federated Learning</span>
+            </div>
+          </div>
+          <div class="skill-block">
+            <div class="skill-block__header">
+              <div class="skill-block__icon"><i class="fas fa-cloud"></i></div>
+              <span class="skill-block__title">Cloud &amp; DevOps</span>
+            </div>
+            <div class="skill-block__tags">
+              <span class="skill-tag">AWS (S3, Glue, Lambda, Redshift)</span><span class="skill-tag">GCP</span><span class="skill-tag">Azure</span><span class="skill-tag">Docker</span><span class="skill-tag">Kubernetes</span><span class="skill-tag">GitHub Actions</span><span class="skill-tag">CI/CD</span>
+            </div>
+          </div>
+          <div class="skill-block">
+            <div class="skill-block__header">
+              <div class="skill-block__icon"><i class="fas fa-server"></i></div>
+              <span class="skill-block__title">Databases</span>
+            </div>
+            <div class="skill-block__tags">
+              <span class="skill-tag">PostgreSQL</span><span class="skill-tag">MySQL</span><span class="skill-tag">MongoDB</span><span class="skill-tag">DynamoDB</span><span class="skill-tag">Redis</span><span class="skill-tag">NoSQL</span><span class="skill-tag">Vector Databases</span>
+            </div>
+          </div>
+          <div class="skill-block">
+            <div class="skill-block__header">
+              <div class="skill-block__icon"><i class="fas fa-chart-bar"></i></div>
+              <span class="skill-block__title">Analytics &amp; Viz</span>
+            </div>
+            <div class="skill-block__tags">
+              <span class="skill-tag">Tableau</span><span class="skill-tag">Power BI</span><span class="skill-tag">Streamlit</span><span class="skill-tag">Pandas</span><span class="skill-tag">NumPy</span><span class="skill-tag">Plotly</span><span class="skill-tag">Seaborn</span><span class="skill-tag">EDA</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects" style="padding: 6rem 0;">
+      <div class="section">
+        <p class="sec-label">Projects</p>
+        <h2 class="sec-title">Things I've <span>Built</span></h2>
+        <div class="projects-grid">
+
+          <!-- 01 E-Commerce Pipeline -->
+          <div class="project-card" data-index="01">
+            <div class="project-img-wrap">
+              <svg viewBox="0 0 320 140" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+                <rect width="320" height="140" fill="#0f1318"/>
+                <rect x="15" y="15" width="55" height="110" rx="3" fill="#141a22" stroke="#00ff88" stroke-width="1" opacity="0.6"/>
+                <text x="25" y="35" font-family="monospace" font-size="7" fill="#00ff88">CSV</text>
+                <rect x="22" y="42" width="42" height="5" rx="1" fill="#243040"/>
+                <rect x="22" y="52" width="42" height="5" rx="1" fill="#243040"/>
+                <rect x="22" y="62" width="42" height="5" rx="1" fill="#243040"/>
+                <rect x="22" y="72" width="42" height="5" rx="1" fill="#243040"/>
+                <rect x="22" y="82" width="42" height="5" rx="1" fill="#243040"/>
+                <text x="25" y="105" font-family="monospace" font-size="6" fill="#7a90a8">9 files</text>
+                <line x1="70" y1="70" x2="88" y2="70" stroke="#4a9eff" stroke-width="1.5"/>
+                <polygon points="86,66 94,70 86,74" fill="#4a9eff"/>
+                <rect x="94" y="50" width="50" height="40" rx="3" fill="#141a22" stroke="#4a9eff" stroke-width="1"/>
+                <text x="100" y="66" font-family="monospace" font-size="7" fill="#4a9eff">dbt</text>
+                <text x="98" y="78" font-family="monospace" font-size="6" fill="#7a90a8">star schema</text>
+                <line x1="144" y1="70" x2="162" y2="70" stroke="#4a9eff" stroke-width="1.5"/>
+                <polygon points="160,66 168,70 160,74" fill="#4a9eff"/>
+                <rect x="168" y="50" width="55" height="40" rx="3" fill="#141a22" stroke="#ffd166" stroke-width="1"/>
+                <text x="174" y="66" font-family="monospace" font-size="7" fill="#ffd166">Airflow</text>
+                <text x="172" y="78" font-family="monospace" font-size="6" fill="#7a90a8">DAG pipeline</text>
+                <line x1="223" y1="70" x2="241" y2="70" stroke="#4a9eff" stroke-width="1.5"/>
+                <polygon points="239,66 247,70 239,74" fill="#4a9eff"/>
+                <rect x="247" y="50" width="58" height="40" rx="3" fill="#141a22" stroke="#00ff88" stroke-width="1"/>
+                <text x="253" y="64" font-family="monospace" font-size="7" fill="#00ff88">Tableau</text>
+                <text x="253" y="76" font-family="monospace" font-size="6" fill="#7a90a8">live dashboard</text>
+                <text x="15" y="138" font-family="monospace" font-size="7" fill="#7a90a8">100K+ records · 27 Brazilian states · 19 dbt tests</text>
+              </svg>
+            </div>
+            <p class="project-stack">Python · dbt · PostgreSQL · Apache Airflow · Tableau · Docker</p>
+            <h3 class="project-title">E-Commerce Sales Analytics Pipeline</h3>
+            <p class="project-desc">End-to-end ETL pipeline ingesting 100K+ Olist e-commerce records into a PostgreSQL star schema using dbt, orchestrated with Apache Airflow DAGs, and published as a live interactive Tableau dashboard covering revenue trends, cohort retention, and geographic analysis across 27 Brazilian states.</p>
+            <div class="project-links">
+              <a href="https://github.com/VaishnaviP600/ecommerce-analytics-pipeline" class="project-link" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+              <a href="https://public.tableau.com/app/profile/vaishnavi.pujala/viz/Book2_17740655544610/Dashboard1" class="project-link project-link--live" target="_blank"><i class="fas fa-chart-bar"></i> Live Dashboard</a>
+            </div>
+          </div>
+
+          <!-- 02 RAG -->
+          <div class="project-card" data-index="02">
+            <div class="project-img-wrap">
+              <svg viewBox="0 0 320 140" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+                <rect width="320" height="140" fill="#0f1318"/>
+                <rect x="15" y="20" width="80" height="100" rx="3" fill="#141a22" stroke="#1e2733" stroke-width="1"/>
+                <text x="25" y="38" font-family="monospace" font-size="7" fill="#7a90a8">resume.pdf</text>
+                <rect x="22" y="44" width="66" height="4" rx="1" fill="#1e2733"/>
+                <rect x="22" y="52" width="55" height="4" rx="1" fill="#1e2733"/>
+                <rect x="22" y="60" width="60" height="4" rx="1" fill="#1e2733"/>
+                <rect x="22" y="68" width="50" height="4" rx="1" fill="#1e2733"/>
+                <rect x="22" y="76" width="66" height="4" rx="1" fill="#1e2733"/>
+                <text x="25" y="105" font-family="monospace" font-size="7" fill="#4a9eff">job_desc.txt</text>
+                <rect x="22" y="110" width="66" height="4" rx="1" fill="#1e2733"/>
+                <circle cx="160" cy="70" r="28" fill="#141a22" stroke="#00ff88" stroke-width="1.5"/>
+                <text x="148" y="64" font-family="monospace" font-size="7" fill="#00ff88">FAISS</text>
+                <text x="143" y="75" font-family="monospace" font-size="6" fill="#7a90a8">LangChain</text>
+                <text x="148" y="86" font-family="monospace" font-size="6" fill="#7a90a8">OpenAI</text>
+                <line x1="95" y1="70" x2="132" y2="70" stroke="#00ff88" stroke-width="1" stroke-dasharray="3 2"/>
+                <line x1="188" y1="70" x2="220" y2="70" stroke="#00ff88" stroke-width="1"/>
+                <polygon points="218,66 226,70 218,74" fill="#00ff88"/>
+                <rect x="226" y="45" width="80" height="50" rx="3" fill="#141a22" stroke="#ffd166" stroke-width="1"/>
+                <text x="233" y="62" font-family="monospace" font-size="7" fill="#ffd166">Cover Letter</text>
+                <text x="233" y="74" font-family="monospace" font-size="6" fill="#7a90a8">Skill Gap</text>
+                <text x="233" y="84" font-family="monospace" font-size="6" fill="#7a90a8">Resume Tips</text>
+                <text x="233" y="94" font-family="monospace" font-size="6" fill="#00ff88">sub-2s ⚡</text>
+              </svg>
+            </div>
+            <p class="project-stack">Python · LangChain · FAISS · OpenAI API · HuggingFace · Streamlit</p>
+            <h3 class="project-title">RAG-Powered Job Application Assistant</h3>
+            <p class="project-desc">Retrieval-Augmented Generation pipeline using LangChain, FAISS vector store, and OpenAI embeddings to parse job descriptions and resumes — generating tailored cover letters, identifying skill gaps, and suggesting resume rewrites with sub-2s end-to-end response time.</p>
+            <div class="project-links">
+              <a href="https://github.com/VaishnaviP600/job-application-assistant" class="project-link" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+            </div>
+          </div>
+
+          <!-- 03 MLOps -->
+          <div class="project-card" data-index="03">
+            <div class="project-img-wrap">
+              <svg viewBox="0 0 320 140" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+                <rect width="320" height="140" fill="#0f1318"/>
+                <rect x="15" y="30" width="55" height="35" rx="3" fill="#141a22" stroke="#4a9eff" stroke-width="1"/>
+                <text x="22" y="46" font-family="monospace" font-size="7" fill="#4a9eff">DVC</text>
+                <text x="22" y="57" font-family="monospace" font-size="6" fill="#7a90a8">versioning</text>
+                <line x1="70" y1="47" x2="90" y2="47" stroke="#7a90a8" stroke-width="1"/>
+                <polygon points="88,43 96,47 88,51" fill="#7a90a8"/>
+                <rect x="96" y="30" width="60" height="35" rx="3" fill="#141a22" stroke="#ffd166" stroke-width="1"/>
+                <text x="103" y="46" font-family="monospace" font-size="7" fill="#ffd166">MLflow</text>
+                <text x="100" y="57" font-family="monospace" font-size="6" fill="#7a90a8">experiments</text>
+                <line x1="156" y1="47" x2="176" y2="47" stroke="#7a90a8" stroke-width="1"/>
+                <polygon points="174,43 182,47 174,51" fill="#7a90a8"/>
+                <rect x="182" y="30" width="65" height="35" rx="3" fill="#141a22" stroke="#ff4a6e" stroke-width="1"/>
+                <text x="188" y="44" font-family="monospace" font-size="7" fill="#ff4a6e">Evidently</text>
+                <text x="190" y="55" font-family="monospace" font-size="6" fill="#7a90a8">data drift</text>
+                <line x1="247" y1="47" x2="267" y2="47" stroke="#7a90a8" stroke-width="1"/>
+                <polygon points="265,43 273,47 265,51" fill="#7a90a8"/>
+                <rect x="273" y="30" width="35" height="35" rx="3" fill="#141a22" stroke="#00ff88" stroke-width="1"/>
+                <text x="278" y="46" font-family="monospace" font-size="6" fill="#00ff88">Fast</text>
+                <text x="278" y="56" font-family="monospace" font-size="6" fill="#00ff88">API</text>
+                <rect x="96" y="85" width="140" height="35" rx="3" fill="#141a22" stroke="#4a9eff" stroke-width="1"/>
+                <text x="110" y="100" font-family="monospace" font-size="7" fill="#4a9eff">GitHub Actions CI/CD</text>
+                <text x="118" y="112" font-family="monospace" font-size="6" fill="#7a90a8">auto-retrain on drift</text>
+                <line x1="166" y1="65" x2="166" y2="85" stroke="#4a9eff" stroke-width="1" stroke-dasharray="3 2"/>
+                <text x="15" y="135" font-family="monospace" font-size="7" fill="#00ff88">91% accuracy · Heart Disease Prediction · Springer 2023</text>
+              </svg>
+            </div>
+            <p class="project-stack">MLflow · DVC · FastAPI · Docker · GitHub Actions · Evidently AI</p>
+            <h3 class="project-title">MLOps Pipeline — Heart Disease Prediction</h3>
+            <p class="project-desc">Full MLOps pipeline wrapping the published Springer heart disease model — data versioning with DVC, experiment tracking with MLflow, automated retraining triggered by data drift detection via Evidently AI, and FastAPI model serving with GitHub Actions CI/CD.</p>
+            <div class="project-links">
+              <a href="https://github.com/VaishnaviP600/HeartDiseasePrediction" class="project-link" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+            </div>
+          </div>
+
+          <!-- 04 Netflix -->
+          <div class="project-card" data-index="04">
+            <div class="project-img-wrap">
+              <svg viewBox="0 0 320 140" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+                <rect width="320" height="140" fill="#0f1318"/>
+                <rect x="15" y="20" width="290" height="90" rx="3" fill="#141a22" stroke="#1e2733" stroke-width="1"/>
+                <rect x="15" y="20" width="290" height="20" rx="3" fill="#1e2733"/>
+                <rect x="15" y="30" width="290" height="10" fill="#1e2733"/>
+                <text x="25" y="34" font-family="monospace" font-size="8" fill="#ff4a6e">Netflix</text>
+                <text x="70" y="34" font-family="monospace" font-size="7" fill="#7a90a8">Content Intelligence Dashboard</text>
+                <rect x="25" y="48" width="60" height="50" rx="2" fill="#0a0c0f" stroke="#243040" stroke-width="1"/>
+                <text x="32" y="62" font-family="monospace" font-size="6" fill="#7a90a8">KMeans</text>
+                <circle cx="40" cy="80" r="8" fill="#00ff88" opacity="0.3"/>
+                <circle cx="58" cy="72" r="6" fill="#4a9eff" opacity="0.3"/>
+                <circle cx="52" cy="88" r="5" fill="#ffd166" opacity="0.3"/>
+                <rect x="95" y="48" width="100" height="50" rx="2" fill="#0a0c0f" stroke="#243040" stroke-width="1"/>
+                <text x="102" y="62" font-family="monospace" font-size="6" fill="#7a90a8">TF-IDF Similarity</text>
+                <rect x="102" y="68" width="80" height="5" rx="1" fill="#00ff88" opacity="0.6"/>
+                <rect x="102" y="76" width="60" height="5" rx="1" fill="#4a9eff" opacity="0.4"/>
+                <rect x="102" y="84" width="70" height="5" rx="1" fill="#ffd166" opacity="0.3"/>
+                <rect x="205" y="48" width="90" height="50" rx="2" fill="#0a0c0f" stroke="#243040" stroke-width="1"/>
+                <text x="213" y="62" font-family="monospace" font-size="6" fill="#7a90a8">Recommendations</text>
+                <text x="213" y="74" font-family="monospace" font-size="7" fill="#00ff88">8,807</text>
+                <text x="213" y="84" font-family="monospace" font-size="6" fill="#7a90a8">titles indexed</text>
+                <text x="213" y="94" font-family="monospace" font-size="6" fill="#4a9eff">sub-second ⚡</text>
+                <text x="15" y="125" font-family="monospace" font-size="7" fill="#7a90a8">Deployed on Streamlit · Live App Available</text>
+              </svg>
+            </div>
+            <p class="project-stack">Python · Pandas · Scikit-learn · NLP · Streamlit</p>
+            <h3 class="project-title">Netflix Content Intelligence Dashboard</h3>
+            <p class="project-desc">End-to-end NLP and ML pipeline across 8,807 Netflix titles applying TF-IDF vectorization, KMeans clustering, and a cosine similarity recommendation engine — deployed as a live interactive Streamlit web app with EDA, content discovery, and sub-second query response.</p>
+            <div class="project-links">
+              <a href="https://github.com/VaishnaviP600/netflix-eda" class="project-link" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+              <a href="https://netflix-eda-4ha6ltn2otfkw8xirunqev.streamlit.app/" class="project-link project-link--live" target="_blank"><i class="fas fa-external-link-alt"></i> Live App</a>
+            </div>
+          </div>
+
+          <!-- 05 Distributed Task Queue -->
+          <div class="project-card" data-index="05">
+            <div class="project-img-wrap">
+              <svg viewBox="0 0 320 140" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+                <rect width="320" height="140" fill="#0f1318"/>
+                <rect x="15" y="20" width="60" height="30" rx="3" fill="#141a22" stroke="#4a9eff" stroke-width="1"/>
+                <text x="22" y="33" font-family="monospace" font-size="7" fill="#4a9eff">FastAPI</text>
+                <text x="22" y="43" font-family="monospace" font-size="6" fill="#7a90a8">REST API</text>
+                <line x1="75" y1="35" x2="95" y2="35" stroke="#4a9eff" stroke-width="1.5"/>
+                <polygon points="93,31 101,35 93,39" fill="#4a9eff"/>
+                <rect x="101" y="20" width="55" height="30" rx="3" fill="#141a22" stroke="#ff4a6e" stroke-width="1"/>
+                <text x="108" y="33" font-family="monospace" font-size="7" fill="#ff4a6e">Redis</text>
+                <text x="106" y="43" font-family="monospace" font-size="6" fill="#7a90a8">priority queue</text>
+                <line x1="156" y1="35" x2="176" y2="35" stroke="#ff4a6e" stroke-width="1.5"/>
+                <rect x="176" y="10" width="45" height="20" rx="2" fill="#141a22" stroke="#00ff88" stroke-width="1"/>
+                <text x="184" y="23" font-family="monospace" font-size="6" fill="#00ff88">worker 1</text>
+                <rect x="176" y="33" width="45" height="20" rx="2" fill="#141a22" stroke="#00ff88" stroke-width="1"/>
+                <text x="184" y="46" font-family="monospace" font-size="6" fill="#00ff88">worker 2</text>
+                <rect x="176" y="56" width="45" height="20" rx="2" fill="#141a22" stroke="#00ff88" stroke-width="1"/>
+                <text x="184" y="69" font-family="monospace" font-size="6" fill="#00ff88">worker 3</text>
+                <line x1="156" y1="35" x2="176" y2="20" stroke="#00ff88" stroke-width="0.8" opacity="0.5"/>
+                <line x1="156" y1="35" x2="176" y2="43" stroke="#00ff88" stroke-width="0.8" opacity="0.5"/>
+                <line x1="156" y1="35" x2="176" y2="66" stroke="#00ff88" stroke-width="0.8" opacity="0.5"/>
+                <rect x="235" y="20" width="75" height="60" rx="3" fill="#141a22" stroke="#ffd166" stroke-width="1"/>
+                <text x="243" y="35" font-family="monospace" font-size="7" fill="#ffd166">React Dashboard</text>
+                <text x="243" y="47" font-family="monospace" font-size="6" fill="#7a90a8">WebSockets</text>
+                <rect x="243" y="52" width="58" height="5" rx="1" fill="#00ff88" opacity="0.4"/>
+                <rect x="243" y="60" width="40" height="5" rx="1" fill="#4a9eff" opacity="0.4"/>
+                <rect x="243" y="68" width="50" height="5" rx="1" fill="#ffd166" opacity="0.3"/>
+                <text x="15" y="110" font-family="monospace" font-size="7" fill="#00ff88">1,000+ tasks/min · exponential backoff · dead letter queue</text>
+                <text x="15" y="125" font-family="monospace" font-size="7" fill="#7a90a8">Containerized with Docker Compose</text>
+              </svg>
+            </div>
+            <p class="project-stack">Python · FastAPI · Redis · PostgreSQL · React.js · WebSockets · Docker</p>
+            <h3 class="project-title">Distributed Task Queue System</h3>
+            <p class="project-desc">Celery-like distributed task queue with Redis-backed priority queues, 3 async workers, exponential backoff retries, dead letter queue, and a real-time React dashboard over WebSockets — containerized with Docker Compose, processing 1,000+ tasks per minute under load.</p>
+            <div class="project-links">
+              <a href="https://github.com/VaishnaviP600/distributed-task-queue" class="project-link" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+            </div>
+          </div>
+
+          <!-- 06 URL Shortener -->
+          <div class="project-card" data-index="06">
+            <div class="project-img-wrap">
+              <svg viewBox="0 0 320 140" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+                <rect width="320" height="140" fill="#0f1318"/>
+                <rect x="15" y="20" width="290" height="30" rx="3" fill="#141a22" stroke="#1e2733" stroke-width="1"/>
+                <text x="25" y="32" font-family="monospace" font-size="7" fill="#7a90a8">https://very-long-url.com/some/path?query=param</text>
+                <text x="25" y="43" font-family="monospace" font-size="7" fill="#4a9eff">→ vpuj.al/x7Kp2</text>
+                <rect x="15" y="60" width="80" height="60" rx="3" fill="#141a22" stroke="#00ff88" stroke-width="1"/>
+                <text x="22" y="75" font-family="monospace" font-size="6" fill="#00ff88">Analytics</text>
+                <rect x="22" y="80" width="60" height="4" rx="1" fill="#00ff88" opacity="0.5"/>
+                <rect x="22" y="88" width="45" height="4" rx="1" fill="#4a9eff" opacity="0.4"/>
+                <rect x="22" y="96" width="55" height="4" rx="1" fill="#ffd166" opacity="0.3"/>
+                <text x="22" y="112" font-family="monospace" font-size="6" fill="#7a90a8">geo · device · ref</text>
+                <rect x="105" y="60" width="80" height="60" rx="3" fill="#141a22" stroke="#4a9eff" stroke-width="1"/>
+                <text x="112" y="75" font-family="monospace" font-size="6" fill="#4a9eff">Redis Rate Limit</text>
+                <text x="115" y="88" font-family="monospace" font-size="11" font-weight="bold" fill="#4a9eff">500+</text>
+                <text x="112" y="100" font-family="monospace" font-size="6" fill="#7a90a8">req/s · sub-100ms</text>
+                <rect x="195" y="60" width="110" height="60" rx="3" fill="#141a22" stroke="#ffd166" stroke-width="1"/>
+                <text x="202" y="75" font-family="monospace" font-size="6" fill="#ffd166">React + TypeScript</text>
+                <text x="202" y="87" font-family="monospace" font-size="6" fill="#7a90a8">JWT Auth · FastAPI</text>
+                <text x="202" y="99" font-family="monospace" font-size="6" fill="#7a90a8">PostgreSQL · Docker</text>
+                <text x="202" y="111" font-family="monospace" font-size="6" fill="#00ff88">OpenAPI docs ✓</text>
+              </svg>
+            </div>
+            <p class="project-stack">Python · FastAPI · PostgreSQL · Redis · React · TypeScript · Docker</p>
+            <h3 class="project-title">URL Shortener with Analytics</h3>
+            <p class="project-desc">Full-stack URL shortener with JWT auth, Redis rate limiting, click analytics (device, geo, referrer), and a React and TypeScript dashboard using FastAPI, PostgreSQL, and Docker — handling 500+ concurrent requests with sub-100ms response time.</p>
+            <div class="project-links">
+              <a href="https://github.com/VaishnaviP600/url-shortener" class="project-link" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+            </div>
+          </div>
+
+          <!-- 07 Digital Wallets -->
+          <div class="project-card" data-index="07">
+            <div class="project-img-wrap">
+              <svg viewBox="0 0 320 140" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+                <rect width="320" height="140" fill="#0f1318"/>
+                <rect x="20" y="28" width="200" height="84" rx="6" fill="#141a22" stroke="#1e2733" stroke-width="1.5"/>
+                <rect x="20" y="28" width="200" height="28" rx="6" fill="#1e2733"/>
+                <rect x="20" y="44" width="200" height="12" fill="#1e2733"/>
+                <circle cx="33" cy="42" r="5" fill="#ff4a6e"/>
+                <circle cx="48" cy="42" r="5" fill="#ffd166"/>
+                <circle cx="63" cy="42" r="5" fill="#00ff88"/>
+                <text x="90" y="46" font-family="monospace" font-size="9" fill="#7a90a8">wallet.enc</text>
+                <rect x="30" y="66" width="80" height="6" rx="2" fill="#243040"/>
+                <rect x="30" y="78" width="120" height="6" rx="2" fill="#243040"/>
+                <rect x="30" y="90" width="60" height="6" rx="2" fill="#00ff88" opacity="0.5"/>
+                <text x="160" y="75" font-family="monospace" font-size="18" fill="#00ff88" opacity="0.15">⬡</text>
+                <rect x="240" y="40" width="65" height="34" rx="4" fill="#0a0c0f" stroke="#00ff88" stroke-width="1" opacity="0.6"/>
+                <text x="253" y="53" font-family="monospace" font-size="7" fill="#00ff88">AES-256</text>
+                <text x="248" y="64" font-family="monospace" font-size="7" fill="#7a90a8">GCM · RSA</text>
+                <circle cx="270" cy="100" r="18" fill="none" stroke="#4a9eff" stroke-width="1.5" stroke-dasharray="4 2"/>
+                <text x="262" y="104" font-family="monospace" font-size="9" fill="#4a9eff">JWT</text>
+                <text x="20" y="128" font-family="monospace" font-size="7" fill="#7a90a8">Zero-knowledge · client-side encryption · password vault</text>
+              </svg>
+            </div>
+            <p class="project-stack">Python · React · TypeScript · AES-256 · AES-GCM · RSA · JWT</p>
+            <h3 class="project-title">Digital Wallets — Secure Decentralized Platform</h3>
+            <p class="project-desc">Zero-knowledge digital wallet with client-side AES-256/AES-GCM encryption, real-time encryption, password vault, secure file sharing, and JWT-based authentication. Your data is encrypted before it ever leaves the browser — built for personal and enterprise use.</p>
+            <div class="project-links">
+              <a href="https://github.com/VaishnaviP600/Digital-Wallets" class="project-link" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- PUBLICATIONS -->
+    <section id="publications">
+      <div class="section">
+        <p class="sec-label">Research</p>
+        <h2 class="sec-title">Published <span>Papers</span></h2>
+        <div class="pub-list">
+          <div class="pub-card">
+            <p class="pub-venue">ICDSMLA 2023 · Springer · Vol. 2</p>
+            <h3 class="pub-title">An Effective Prediction of Heart Diseases Using Machine Learning Techniques</h3>
+            <p class="pub-meta">December 2023 · 5th International Conference on Data Science, Machine Learning &amp; Applications</p>
+            <p class="pub-abstract">Applies an ensemble of Random Forest, Logistic Regression, K-NN, SVM, and Decision Tree classifiers to medical parameter data, enabling early-stage heart disease diagnosis with 91% accuracy. Includes systematic feature selection and cross-validation across patient cohorts.</p>
+            <a href="https://link.springer.com/chapter/10.1007/978-981-97-8043-3_162" class="pub-link-btn" target="_blank"><i class="fas fa-external-link-alt"></i> View Publication</a>
+          </div>
+          <div class="pub-card">
+            <p class="pub-venue">ICCCE 2024 · Springer</p>
+            <h3 class="pub-title">An Approach to Detect Copy Move Forgery Detection Using Deep Learning Techniques</h3>
+            <p class="pub-meta">2024 · International Conference on Communication and Computer Engineering</p>
+            <p class="pub-abstract">Introduces a deep learning approach to image forensics, leveraging CNN and VGGNet-16 to detect and spatially localize copy-move manipulations with 90% accuracy across standard benchmark datasets.</p>
+            <a href="https://link.springer.com/chapter/10.1007/978-981-95-0269-1_78" class="pub-link-btn" target="_blank"><i class="fas fa-external-link-alt"></i> View Publication</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EDUCATION -->
+    <section id="education">
+      <div class="section">
+        <p class="sec-label">Education</p>
+        <h2 class="sec-title">Academic <span>Background</span></h2>
+        <div class="edu-grid">
+          <div class="edu-item">
+            <div class="edu-item__index">01 // graduate</div>
+            <div>
+              <div class="edu-school">Georgia State University</div>
+              <div class="edu-degree">M.S. Computer Science — GPA: 3.3 / 4.0</div>
+              <div class="edu-meta">Atlanta, GA · Coursework: Machine Learning, Neural Networks, Deep Learning, LLMs, Federated Learning</div>
+            </div>
+            <div class="edu-date">Aug 2024 – May 2026</div>
+          </div>
+          <div class="edu-item">
+            <div class="edu-item__index">02 // undergraduate</div>
+            <div>
+              <div class="edu-school">G. Narayanamma Institute of Technology &amp; Science</div>
+              <div class="edu-degree">B.Tech Computer Science — GPA: 8.43 / 10</div>
+              <div class="edu-meta">Hyderabad, India</div>
+            </div>
+            <div class="edu-date">Aug 2020 – Jul 2024</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <div class="section">
+        <p class="sec-label">Contact</p>
+        <h2 class="sec-title">Get In <span>Touch</span></h2>
+        <div class="contact-grid">
+          <div>
+            <h3 class="contact-left__title">Let's Connect</h3>
+            <p class="contact-left__desc">Open to full-time roles in Software Engineering, Data Engineering, ML Engineering, and AI/ML. Also always up for interesting research collaborations and conversations about building things that matter.</p>
+            <div class="contact-info-item"><i class="fas fa-envelope"></i> pujalavaishnavi@gmail.com</div>
+            <div class="contact-info-item"><i class="fas fa-phone"></i> +1 (470) 815-4898</div>
+            <div class="contact-info-item"><i class="fas fa-map-marker-alt"></i> Atlanta, GA</div>
+            <div class="contact-socials">
+              <a href="https://www.linkedin.com/in/pujala-vaishnavi-117432298" target="_blank" class="social-btn social-btn--linkedin">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                LinkedIn
+              </a>
+              <a href="https://github.com/VaishnaviP600" target="_blank" class="social-btn social-btn--github">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                GitHub
+              </a>
+              <a href="https://public.tableau.com/app/profile/vaishnavi.pujala/vizzes" target="_blank" class="social-btn">
+                <i class="fas fa-chart-bar"></i> Tableau
+              </a>
+            </div>
+          </div>
+          <form class="contact-form" id="contact-form" action="https://formspree.io/f/xgvyklrp" method="POST">
+            <input type="text" name="name" placeholder="// your_name" required>
+            <input type="email" name="email" placeholder="// your_email@domain.com" required>
+            <input type="text" name="subject" placeholder="// subject" required>
+            <textarea name="message" placeholder="// your_message..." required rows="5"></textarea>
+            <button type="submit" id="submit-btn">Send Message</button>
+            <p id="thank-you" style="display:none; color:#00ff88; font-weight:700; font-size:0.85rem; margin-top:0.5rem;">✓ Thanks! Your message has been sent.</p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <span>~/vpujala</span> · © 2026 Vaishnavi Pujala · All Rights Reserved
+  </footer>
+
+  <script>
+    const navToggle = document.getElementById('nav-toggle');
+    const navMenu = document.getElementById('nav-menu');
+    navToggle?.addEventListener('click', () => navMenu.classList.toggle('show'));
+    document.querySelectorAll('.nav__link').forEach(link => {
+      link.addEventListener('click', () => navMenu.classList.remove('show'));
+    });
+
+    const sections = document.querySelectorAll('section[id]');
+    window.addEventListener('scroll', () => {
+      const y = window.pageYOffset;
+      sections.forEach(sec => {
+        const top = sec.offsetTop - 80;
+        const id = sec.getAttribute('id');
+        const link = document.querySelector(`.nav__link[href="#${id}"]`);
+        if (y >= top && y < top + sec.offsetHeight) {
+          document.querySelectorAll('.nav__link').forEach(l => l.classList.remove('active-link'));
+          link?.classList.add('active-link');
+        }
+      });
+    });
+
+    var contactForm = document.getElementById('contact-form');
+    if (contactForm) {
+      contactForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        var btn = document.getElementById('submit-btn');
+        btn.textContent = 'Sending...';
+        btn.disabled = true;
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', contactForm.action);
+        xhr.setRequestHeader('Accept', 'application/json');
+        xhr.onreadystatechange = function() {
+          if (xhr.readyState === XMLHttpRequest.DONE) {
+            document.getElementById('thank-you').style.display = 'block';
+            btn.textContent = 'Send Message';
+            btn.disabled = false;
+            if (xhr.status === 200) { contactForm.reset(); }
+          }
+        };
+        xhr.send(new FormData(contactForm));
+      });
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.edu-item, .exp-item, .project-card, .pub-card, .skill-block').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(20px)';
+      el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>
